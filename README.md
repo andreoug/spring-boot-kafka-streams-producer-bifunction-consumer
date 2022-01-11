@@ -118,80 +118,80 @@ Follow the steps on section about [Working on the Development Environment](#wotd
 2. Send a sms rule to the app to produce it as follows
 
 ```bash
-  curl -X POST "http://localhost:9000/kafka/send-rule" -H  "accept: */*" \
-  -H  "Content-Type: application/json" \
-  -d "{\"verb\":\"BLOCK\",\"allSenders\":true,\"receiver\":\"0123456789\"}"
+    curl -X POST "http://localhost:9000/kafka/send-rule" -H  "accept: */*" \
+    -H  "Content-Type: application/json" \
+    -d "{\"verb\":\"BLOCK\",\"allSenders\":true,\"receiver\":\"0123456789\"}"
 ```
 
 3. Send two SMS's to the app to produce and consume it as follows
 
 ```bash
-  curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
-  -H  "Content-Type: application/json" \
-  -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"9876543210\"}" 
-  
-  curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
-  -H  "Content-Type: application/json" \
-  -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"0123456789\"}" 
+    curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
+    -H  "Content-Type: application/json" \
+    -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"9876543210\"}" 
+    
+    curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
+    -H  "Content-Type: application/json" \
+    -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"0123456789\"}" 
 ```
 
 4. Check the logs from producer through docker-compose logs
 
 ```bash
-  $ docker-compose logs producer
-  ...
-  producer      | 2022-01-10 15:10:07.166  INFO 1 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-  producer      | 2022-01-10 15:10:07.172  INFO 1 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
-  producer      | 2022-01-10 15:10:07.583  INFO 1 --- [nio-9000-exec-1] c.p.s.producer.Producer                  : #~#: Producing (key: 0123456789), action -> Action(id=4e3bd520, sms=null, created=null, updated=null, status=null, smsRule=SmsRule(verb=BLOCK, allSenders=true, receiver=0123456789, timestamp=2022-01-10T15:10:07.562))
-  producer      | 2022-01-10 15:10:07.674  INFO 1 --- [nio-9000-exec-1] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values:
-  ...
-  producer      | 2022-01-10 15:10:08.030  INFO 1 --- [nio-9000-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.7.2
-  producer      | 2022-01-10 15:10:08.032  INFO 1 --- [nio-9000-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 37a1cc36bf4d76f3
-  producer      | 2022-01-10 15:10:08.033  INFO 1 --- [nio-9000-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1641827408026
-  producer      | 2022-01-10 15:10:08.739  INFO 1 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: I40ZnFp2T--DPmxjGf0BeA
-  producer      | 2022-01-10 15:10:16.823  INFO 1 --- [nio-9000-exec-3] c.p.s.producer.Producer                  : #~#: Producing (key: 9876543210), action -> Action(id=680fea91, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T15:10:16.821), created=2022-01-10T15:10:16.821, updated=2022-01-10T15:10:16.821, status=CREATED, smsRule=null)
-  producer      | 2022-01-10 15:11:15.205  INFO 1 --- [nio-9000-exec-5] c.p.s.producer.Producer                  : #~#: Producing (key: 0123456789), action -> Action(id=032734a0, sms=Sms(body=string, sender=0000000000, receiver=0123456789, timestamp=2022-01-10T15:11:15.205), created=2022-01-10T15:11:15.205, updated=2022-01-10T15:11:15.205, status=CREATED, smsRule=null)
+    $ docker-compose logs producer
+    ...
+    producer      | 2022-01-10 15:10:07.166  INFO 1 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+    producer      | 2022-01-10 15:10:07.172  INFO 1 --- [nio-9000-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+    producer      | 2022-01-10 15:10:07.583  INFO 1 --- [nio-9000-exec-1] c.p.s.producer.Producer                  : #~#: Producing (key: 0123456789), action -> Action(id=4e3bd520, sms=null, created=null, updated=null, status=null, smsRule=SmsRule(verb=BLOCK, allSenders=true, receiver=0123456789, timestamp=2022-01-10T15:10:07.562))
+    producer      | 2022-01-10 15:10:07.674  INFO 1 --- [nio-9000-exec-1] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values:
+    ...
+    producer      | 2022-01-10 15:10:08.030  INFO 1 --- [nio-9000-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.7.2
+    producer      | 2022-01-10 15:10:08.032  INFO 1 --- [nio-9000-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 37a1cc36bf4d76f3
+    producer      | 2022-01-10 15:10:08.033  INFO 1 --- [nio-9000-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1641827408026
+    producer      | 2022-01-10 15:10:08.739  INFO 1 --- [ad | producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=producer-1] Cluster ID: I40ZnFp2T--DPmxjGf0BeA
+    producer      | 2022-01-10 15:10:16.823  INFO 1 --- [nio-9000-exec-3] c.p.s.producer.Producer                  : #~#: Producing (key: 9876543210), action -> Action(id=680fea91, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T15:10:16.821), created=2022-01-10T15:10:16.821, updated=2022-01-10T15:10:16.821, status=CREATED, smsRule=null)
+    producer      | 2022-01-10 15:11:15.205  INFO 1 --- [nio-9000-exec-5] c.p.s.producer.Producer                  : #~#: Producing (key: 0123456789), action -> Action(id=032734a0, sms=Sms(body=string, sender=0000000000, receiver=0123456789, timestamp=2022-01-10T15:11:15.205), created=2022-01-10T15:11:15.205, updated=2022-01-10T15:11:15.205, status=CREATED, smsRule=null)
 ```
 
 5. Check the logs from bifunction through docker-compose logs
 
 ```bash
-  $ docker-compose logs bifunction
-  ...
-  bifunction    | 2022-01-10 14:51:37.494  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] Restoration took 446 ms for all tasks [0_0]
-  bifunction    | 2022-01-10 14:51:37.494  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] State transition from PARTITIONS_ASSIGNED to RUNNING
-  bifunction    | 2022-01-10 14:51:37.499  INFO 1 --- [-StreamThread-1] org.apache.kafka.streams.KafkaStreams    : stream-client [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526] State transition from REBALANCING to RUNNING
-  bifunction    | 2022-01-10 14:51:37.503  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1-consumer, groupId=bifunctionProcessor-applicationId] Resetting offset for partition topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1001 rack: null)], epoch=0}}.
-  bifunction    | 2022-01-10 14:51:37.504  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1-consumer, groupId=bifunctionProcessor-applicationId] Resetting offset for partition rules.topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1001 rack: null)], epoch=0}}.
-  bifunction    | 2022-01-10 14:53:36.882  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
-  ...
-  bifunction    | 2022-01-10 15:09:20.591  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.AbstractCoordinator  : [Consumer clientId=bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1-consumer, groupId=bifunctionProcessor-applicationId] Discovered group coordinator kafka:9092 (id: 2147482646 rack: null)
-  bifunction    | 2022-01-10 15:10:16.865  INFO 1 --- [-StreamThread-1] c.p.s.KafkaBiFunctionConfiguration       : key: 9876543210, action: Action(id=680fea91, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T15:10:16), created=2022-01-10T15:10:16, updated=2022-01-10T15:10:16.865, status=PENDING, smsRule=null)
-  bifunction    | 2022-01-10 15:11:15.223  INFO 1 --- [-StreamThread-1] c.p.s.KafkaBiFunctionConfiguration       : key: 0123456789, action: Action(id=032734a0, sms=Sms(body=string, sender=0000000000, receiver=0123456789, timestamp=2022-01-10T15:11:15), created=2022-01-10T15:11:15, updated=2022-01-10T15:11:15.223, status=PENDING, smsRule=SmsRule(verb=BLOCK, allSenders=true, receiver=0123456789, timestamp=2022-01-10T15:10:07))
-  bifunction    | 2022-01-10 15:11:19.997  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] Processed 3 total records, ran 0 punctuators, and committed 1 total tasks since the last update
+    $ docker-compose logs bifunction
+    ...
+    bifunction    | 2022-01-10 14:51:37.494  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] Restoration took 446 ms for all tasks [0_0]
+    bifunction    | 2022-01-10 14:51:37.494  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] State transition from PARTITIONS_ASSIGNED to RUNNING
+    bifunction    | 2022-01-10 14:51:37.499  INFO 1 --- [-StreamThread-1] org.apache.kafka.streams.KafkaStreams    : stream-client [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526] State transition from REBALANCING to RUNNING
+    bifunction    | 2022-01-10 14:51:37.503  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1-consumer, groupId=bifunctionProcessor-applicationId] Resetting offset for partition topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1001 rack: null)], epoch=0}}.
+    bifunction    | 2022-01-10 14:51:37.504  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1-consumer, groupId=bifunctionProcessor-applicationId] Resetting offset for partition rules.topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1001 rack: null)], epoch=0}}.
+    bifunction    | 2022-01-10 14:53:36.882  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
+    ...
+    bifunction    | 2022-01-10 15:09:20.591  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.AbstractCoordinator  : [Consumer clientId=bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1-consumer, groupId=bifunctionProcessor-applicationId] Discovered group coordinator kafka:9092 (id: 2147482646 rack: null)
+    bifunction    | 2022-01-10 15:10:16.865  INFO 1 --- [-StreamThread-1] c.p.s.KafkaBiFunctionConfiguration       : key: 9876543210, action: Action(id=680fea91, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T15:10:16), created=2022-01-10T15:10:16, updated=2022-01-10T15:10:16.865, status=PENDING, smsRule=null)
+    bifunction    | 2022-01-10 15:11:15.223  INFO 1 --- [-StreamThread-1] c.p.s.KafkaBiFunctionConfiguration       : key: 0123456789, action: Action(id=032734a0, sms=Sms(body=string, sender=0000000000, receiver=0123456789, timestamp=2022-01-10T15:11:15), created=2022-01-10T15:11:15, updated=2022-01-10T15:11:15.223, status=PENDING, smsRule=SmsRule(verb=BLOCK, allSenders=true, receiver=0123456789, timestamp=2022-01-10T15:10:07))
+    bifunction    | 2022-01-10 15:11:19.997  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [bifunctionProcessor-applicationId-e496a8a8-4f6c-49bc-8fbd-b02e2c773526-StreamThread-1] Processed 3 total records, ran 0 punctuators, and committed 1 total tasks since the last update
 ```
 
 6. Check the logs from consumer to see the consumed message through docker-compose logs
 
 ```bash
-  $ docker-compose logs consumer
-  ...
-  consumer      | 2022-01-10 14:51:36.448  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1-consumer, groupId=consumeService-applicationId] Found no committed offset for partition active.topic-0
-  consumer      | 2022-01-10 14:51:36.491  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1-consumer, groupId=consumeService-applicationId] Resetting offset for partition active.topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1001 rack: null)], epoch=0}}.
-  consumer      | 2022-01-10 14:52:04.113  INFO 1 --- [   scheduling-1] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values:
-  ...
-  consumer      | 2022-01-10 14:52:04.119  INFO 1 --- [   scheduling-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.7.2
-  consumer      | 2022-01-10 14:52:04.119  INFO 1 --- [   scheduling-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 37a1cc36bf4d76f3
-  consumer      | 2022-01-10 14:52:04.119  INFO 1 --- [   scheduling-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1641826324119
-  consumer      | 2022-01-10 14:52:04.149  INFO 1 --- [| adminclient-2] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-2 unregistered
-  consumer      | 2022-01-10 14:52:04.153  INFO 1 --- [| adminclient-2] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
-  consumer      | 2022-01-10 14:52:04.153  INFO 1 --- [| adminclient-2] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
-  consumer      | 2022-01-10 14:52:04.153  INFO 1 --- [| adminclient-2] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
-  consumer      | 2022-01-10 14:53:34.564  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
-  ...
-  consumer      | 2022-01-10 15:09:20.583  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.AbstractCoordinator  : [Consumer clientId=consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1-consumer, groupId=consumeService-applicationId] Discovered group coordinator kafka:9092 (id: 2147482646 rack: null)
-  consumer      | 2022-01-10 15:10:17.096  INFO 1 --- [-StreamThread-1] c.p.s.KafkaConsumerConfiguration         : Action consumed [Action(id=680fea91, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T15:10:16), created=2022-01-10T15:10:16, updated=2022-01-10T15:10:16, status=DELIVERING, smsRule=null)] action.sms.body: [string]
-  consumer      | 2022-01-10 15:11:20.002  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1] Processed 1 total records, ran 0 punctuators, and committed 1 total tasks since the last update
+    $ docker-compose logs consumer
+    ...
+    consumer      | 2022-01-10 14:51:36.448  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1-consumer, groupId=consumeService-applicationId] Found no committed offset for partition active.topic-0
+    consumer      | 2022-01-10 14:51:36.491  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1-consumer, groupId=consumeService-applicationId] Resetting offset for partition active.topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[kafka:9092 (id: 1001 rack: null)], epoch=0}}.
+    consumer      | 2022-01-10 14:52:04.113  INFO 1 --- [   scheduling-1] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values:
+    ...
+    consumer      | 2022-01-10 14:52:04.119  INFO 1 --- [   scheduling-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 2.7.2
+    consumer      | 2022-01-10 14:52:04.119  INFO 1 --- [   scheduling-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 37a1cc36bf4d76f3
+    consumer      | 2022-01-10 14:52:04.119  INFO 1 --- [   scheduling-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1641826324119
+    consumer      | 2022-01-10 14:52:04.149  INFO 1 --- [| adminclient-2] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for adminclient-2 unregistered
+    consumer      | 2022-01-10 14:52:04.153  INFO 1 --- [| adminclient-2] org.apache.kafka.common.metrics.Metrics  : Metrics scheduler closed
+    consumer      | 2022-01-10 14:52:04.153  INFO 1 --- [| adminclient-2] org.apache.kafka.common.metrics.Metrics  : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+    consumer      | 2022-01-10 14:52:04.153  INFO 1 --- [| adminclient-2] org.apache.kafka.common.metrics.Metrics  : Metrics reporters closed
+    consumer      | 2022-01-10 14:53:34.564  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
+    ...
+    consumer      | 2022-01-10 15:09:20.583  INFO 1 --- [-StreamThread-1] o.a.k.c.c.internals.AbstractCoordinator  : [Consumer clientId=consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1-consumer, groupId=consumeService-applicationId] Discovered group coordinator kafka:9092 (id: 2147482646 rack: null)
+    consumer      | 2022-01-10 15:10:17.096  INFO 1 --- [-StreamThread-1] c.p.s.KafkaConsumerConfiguration         : Action consumed [Action(id=680fea91, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T15:10:16), created=2022-01-10T15:10:16, updated=2022-01-10T15:10:16, status=DELIVERING, smsRule=null)] action.sms.body: [string]
+    consumer      | 2022-01-10 15:11:20.002  INFO 1 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-a364a111-94a2-4a1d-9db8-83489da32197-StreamThread-1] Processed 1 total records, ran 0 punctuators, and committed 1 total tasks since the last update
 ```
 
 ### <a name="wotde">1.3. Working on the Development Environment</a>
@@ -199,20 +199,20 @@ Follow the steps on section about [Working on the Development Environment](#wotd
 1. Deploy the Kafka broker with Zookeeper using docker-compose as follows
 
 ```bash
-  docker-compose -f docker-compose-kafka-only.yml up -d
+    docker-compose -f docker-compose-kafka-only.yml up -d
 ```
 2. Use Maven to clean and package your app as follows
 ```bash
-  mvn clean package
+    mvn clean package
 ```
 3. Run your app with java as follows
 
 ```bash
-  java -jar target/*.jar
+    java -jar target/*.jar
 ```
 4. On a new terminal, run your app consumer profile
 ```bash
-  java -Dspring.profiles.active=consumer -jar target/*.jar
+    java -Dspring.profiles.active=consumer -jar target/*.jar
 ```
 
 5. Send a sms rule to the app to produce it as follows
@@ -225,13 +225,13 @@ Follow the steps on section about [Working on the Development Environment](#wotd
 6. Send two message to the app to produce it as follows
 
 ```bash
-      curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
-      -H  "Content-Type: application/json" \
-      -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"9876543210\"}" 
-
-      curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
-      -H  "Content-Type: application/json" \
-      -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"0123456789\"}" 
+    curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
+    -H  "Content-Type: application/json" \
+    -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"9876543210\"}" 
+    
+    curl -X POST "http://localhost:9000/kafka/send-sms" -H  "accept: */*" \
+    -H  "Content-Type: application/json" \
+    -d "{\"body\":\"string\",\"sender\":\"0000000000\",\"receiver\":\"0123456789\"}" 
 ```
 
 7. Check your logs from terminals
@@ -255,20 +255,20 @@ Follow the steps on section about [Working on the Development Environment](#wotd
 And on the consumer terminal:
 
 ```bash
-  ...
-  2022-01-10 17:27:09.674  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Adding newly assigned partitions: active.topic-0
-  2022-01-10 17:27:09.674  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] State transition from STARTING to PARTITIONS_ASSIGNED
-  2022-01-10 17:27:09.683  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Found no committed offset for partition active.topic-0
-  2022-01-10 17:27:09.700  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Resetting offset for partition active.topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1001 rack: null)], epoch=0}}.
-  2022-01-10 17:27:09.752  INFO 72828 --- [-StreamThread-1] o.a.k.s.processor.internals.StreamTask   : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] task [0_0] Initialized
-  2022-01-10 17:27:09.757  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Found no committed offset for partition active.topic-0
-  2022-01-10 17:27:09.760  INFO 72828 --- [-StreamThread-1] o.a.k.s.processor.internals.StreamTask   : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] task [0_0] Restored and ready to run
-  2022-01-10 17:27:09.760  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Restoration took 86 ms for all tasks [0_0]
-  2022-01-10 17:27:09.760  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] State transition from PARTITIONS_ASSIGNED to RUNNING
-  2022-01-10 17:27:09.761  INFO 72828 --- [-StreamThread-1] org.apache.kafka.streams.KafkaStreams    : stream-client [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05] State transition from REBALANCING to RUNNING
-  2022-01-10 17:28:33.799  INFO 72828 --- [-StreamThread-1] c.p.s.KafkaConsumerConfiguration         : Action consumed [Action(id=186bb440, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T17:28:33), created=2022-01-10T17:28:33, updated=2022-01-10T17:28:33, status=DELIVERING, smsRule=null)] action.sms.body: [string]
-  2022-01-10 17:29:09.737  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Processed 1 total records, ran 0 punctuators, and committed 1 total tasks since the last update
-  2022-01-10 17:31:09.787  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
+    ...
+    2022-01-10 17:27:09.674  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Adding newly assigned partitions: active.topic-0
+    2022-01-10 17:27:09.674  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] State transition from STARTING to PARTITIONS_ASSIGNED
+    2022-01-10 17:27:09.683  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Found no committed offset for partition active.topic-0
+    2022-01-10 17:27:09.700  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Resetting offset for partition active.topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1001 rack: null)], epoch=0}}.
+    2022-01-10 17:27:09.752  INFO 72828 --- [-StreamThread-1] o.a.k.s.processor.internals.StreamTask   : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] task [0_0] Initialized
+    2022-01-10 17:27:09.757  INFO 72828 --- [-StreamThread-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1-consumer, groupId=consumeService-applicationId] Found no committed offset for partition active.topic-0
+    2022-01-10 17:27:09.760  INFO 72828 --- [-StreamThread-1] o.a.k.s.processor.internals.StreamTask   : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] task [0_0] Restored and ready to run
+    2022-01-10 17:27:09.760  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Restoration took 86 ms for all tasks [0_0]
+    2022-01-10 17:27:09.760  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] State transition from PARTITIONS_ASSIGNED to RUNNING
+    2022-01-10 17:27:09.761  INFO 72828 --- [-StreamThread-1] org.apache.kafka.streams.KafkaStreams    : stream-client [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05] State transition from REBALANCING to RUNNING
+    2022-01-10 17:28:33.799  INFO 72828 --- [-StreamThread-1] c.p.s.KafkaConsumerConfiguration         : Action consumed [Action(id=186bb440, sms=Sms(body=string, sender=0000000000, receiver=9876543210, timestamp=2022-01-10T17:28:33), created=2022-01-10T17:28:33, updated=2022-01-10T17:28:33, status=DELIVERING, smsRule=null)] action.sms.body: [string]
+    2022-01-10 17:29:09.737  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Processed 1 total records, ran 0 punctuators, and committed 1 total tasks since the last update
+    2022-01-10 17:31:09.787  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
 ```
 
 
@@ -296,21 +296,21 @@ clean, package and run java jar with the following two lines, you will - by defa
 bifunction profiles. Therefore, we need an extra terminal in the same directory for consumer's execution.
 
 ```bash
-  mvn clean package
-  java -jar target/*.jar
+    mvn clean package
+    java -jar target/*.jar
 ```
 or
 ```bash
-  mvn spring-boot:run
+    mvn spring-boot:run
 ```
 and on a new terminal
 ```bash
-  java -Dspring.profiles.active=consumer -jar target/*.jar
+    java -Dspring.profiles.active=consumer -jar target/*.jar
 ```
 or on the new terminal you can use maven's spring-boot phase to pass the profiles' parameter through *spring-boot.run.profiles* as it is
 used in the following command:
 ```bash
-  mvn spring-boot:run -Dspring-boot.run.profiles=consumer
+    mvn spring-boot:run -Dspring-boot.run.profiles=consumer
 ```
 
 ### 2.2. Producer to Kafka
@@ -318,13 +318,13 @@ used in the following command:
 In case you want to deploy only producer spring boot profile, then we need the following two lines. The trick is to
 define the *spring.profiles.active* in the JVM parameters as producer.
 ```bash
-  mvn clean package
-  java -Dspring.profiles.active=producer -jar target/*.jar
+    mvn clean package
+    java -Dspring.profiles.active=producer -jar target/*.jar
 ```
 or you can use maven's spring-boot phase to pass the profiles' parameter through *spring-boot.run.profiles* as it is
 used in the following command:
 ```bash
-  mvn spring-boot:run -Dspring-boot.run.profiles=producer
+    mvn spring-boot:run -Dspring-boot.run.profiles=producer
 ```
 
 Moreover, it is worth mentioning that Producer is still as statefull implementation in spring cloud and also 
@@ -337,13 +337,13 @@ Producer.
 In case you want to deploy only bifunction spring boot profile, then we need the following two lines. The same trick is 
 to define the *spring.profiles.active* in the JVM parameters as bifunction.
 ```bash
-  mvn clean package
-  java -Dspring.profiles.active=bifunction -jar target/*.jar
+    mvn clean package
+    java -Dspring.profiles.active=bifunction -jar target/*.jar
 ```
 or you can use maven's spring-boot phase to pass the profiles' parameter through *spring-boot.run.profiles* as it is
 used in the following command:
 ```bash
-  mvn spring-boot:run -Dspring-boot.run.profiles=bifunction
+    mvn spring-boot:run -Dspring-boot.run.profiles=bifunction
 ```
 In bifunction profile, we load a bean with a BiFunction in order to left join the incoming KSteam of  
 SMS's actions and the static KTable of SmsRules's actions with the matched keys, which are the receiver's number. 
@@ -356,12 +356,12 @@ the updated rule.
 Likewise, to deploy only consumer spring boot profile, then we need the following two lines. The same trick for the JVM
 parameters for consumer.
 ```bash
-  mvn clean package
-  java -Dspring.profiles.active=consumer -jar target/*.jar
+    mvn clean package
+    java -Dspring.profiles.active=consumer -jar target/*.jar
 ```
 or likewise, use maven's spring-boot phase for consumer as we did for producer:
 ```bash
-  mvn spring-boot:run -Dspring-boot.run.profiles=consumer
+    mvn spring-boot:run -Dspring-boot.run.profiles=consumer
 ```
 
 

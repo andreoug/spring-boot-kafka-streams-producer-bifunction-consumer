@@ -1,0 +1,26 @@
+@startuml
+
+title SMS Delivery Filtering Sequence Diagram
+
+actor "Sender" as S
+participant "Producer" as P
+participant "Kafka Broker" as B
+participant "BiFunctional" as BF
+participant "Consumer" as C
+actor "Receiver" as R
+
+
+== Send SMS Rule ==
+S -> P: send SmsRuleRequest
+P -> B: send Action with SmsRule
+S <- P: return SmsRuleResponse
+
+== Send SMS ==
+S -> P: send SmsRequest
+P -> B: send Action with Sms
+S <- P: return SmsResponse
+B -> BF: consume Sms and Rule actions
+BF -> BF: leftJoin Sms and Rule actions
+BF -> C: consume filtered Sms action
+
+@enduml

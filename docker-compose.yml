@@ -1,0 +1,65 @@
+version: '3'
+
+networks:
+  kafka-net:
+    driver: bridge
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    networks:
+      - kafka-net
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - '9092'
+    networks:
+      - kafka-net
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  producer:
+    container_name: producer
+    image: app
+    build: .
+    depends_on:
+      - kafka
+    ports:
+      - "9000:9000"
+    networks:
+      - kafka-net
+    environment:
+      SPRING_PROFILES_ACTIVE: producer
+      KAFKA_SERVERS: "kafka:9092"
+      KAFKA_DEFAULT_TOPIC: "topic"
+      KAFKA_TOPIC: "rules.topic"
+  bifunction:
+    container_name: bifunction
+    image: app
+    build: .
+    depends_on:
+      - kafka
+    networks:
+      - kafka-net
+    environment:
+      SPRING_PROFILES_ACTIVE: bifunction
+      KAFKA_SERVERS: "kafka:9092"
+      KAFKA_DEFAULT_TOPIC: "topic"
+      KAFKA_TOPIC: "rules.topic"
+      KAFKA_ACTIVE_TOPIC: "active.topic"
+  consumer:
+    container_name: consumer
+    image: app
+    build: .
+    depends_on:
+      - kafka
+    networks:
+      - kafka-net
+    environment:
+      SPRING_PROFILES_ACTIVE: consumer
+      KAFKA_SERVERS: "kafka:9092"
+      KAFKA_ACTIVE_TOPIC: "active.topic"

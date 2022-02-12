@@ -13,6 +13,8 @@ spring:
     template:
       default-topic: ${KAFKA_DEFAULT_TOPIC:topic}
       topic:  ${KAFKA_TOPIC:rules.topic}
+      partition-count: ${KAFKA_PARTITION_COUNT:1}
+      replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
     producer:
       bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -67,6 +69,11 @@ spring:
         destination: ${KAFKA_TOPIC:rules.topic}
       bifunctionProcessor-out-0:
         destination: ${KAFKA_ACTIVE_TOPIC:active.topic}
+        producer:
+          auto-add-partitions: 1
+          partition-count: ${KAFKA_PARTITION_COUNT:1}
+          replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
+
     kafka:
       streams:
         binder:

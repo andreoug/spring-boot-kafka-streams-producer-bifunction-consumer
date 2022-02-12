@@ -1,6 +1,6 @@
 # Spring Boot with Kafka Streams for SMS Delivery Filtering
 
-This is a pilot repo is utilizing Spring Boot 2.5.7 and Kafka broker for the use case of *SMS Delivery Filtering*.
+This is a pilot repo is utilizing Spring Boot 3.0.0 (M1) and Kafka broker for the use case of *SMS Delivery Filtering*.
 
 If you are an action first words later person or you prefer the Prof of Concept before the Analysis, your next stop
 is going to be section [Getting Started](#gs) in order to make this application run locally on your machine and then
@@ -75,13 +75,13 @@ Follow the steps on the section about [Working on the Staging Environment](#wots
 | mvn | Maven | - | [Dockerfile](Dockerfile) |
 | java | Java | - | [Dockerfile](Dockerfile) |
 | lib | Apache-Kafka-Streams | 2.7.2 | spring-boot |
-| lib | Jackson-Datatype-JSR310 | 2.5.7 | spring-boot |
+| lib | Jackson-Datatype-JSR310 | 3.0.0 (M1) | spring-boot |
 | lib | Lombok | 1.18.22 | spring-boot |
 | lib | Openapi-UI | 1.6.3 | [pom.xml](pom.xml) |
 | lib | Spring-Cloud-Stream | 3.1.4 | spring-boot |
 | lib | Spring-Cloud-Stream-Binder-Kafka-Streams | 3.1.4 | spring-boot |
-| lib | Spring-Boot-Starter-Web | 2.5.7 | spring-boot |
-| spring-boot | Spring-Boot-Starter-Parent | 2.5.7 | [pom.xml](pom.xml) |
+| lib | Spring-Boot-Starter-Web | 3.0.0 (M1) | spring-boot |
+| spring-boot | Spring-Boot-Starter-Parent | 3.0.0 (M1) | [pom.xml](pom.xml) |
 | spring-cloud | Spring-Cloud | 2020.0.5 | [pom.xml](pom.xml) |
 
 #### 1.1.3. Development Environment
@@ -89,21 +89,22 @@ Follow the steps on section about [Working on the Development Environment](#wotd
 
 ##### 1.1.3.1 Versioning Details
 
-| Program | Package | Version | Ruled by |
-| :---- | :------- | -------: | --------: |
-| docker | Docker CE | 20.10.8 | env. |
-| docker-compose | Docker CE | 1.29.2 | env. |
-| Kafka | Kafka Broker | - | [docker-compose.yml](docker-compose.yml) |
-| mvn | Maven | 3.8.1 | env. |
+| Program | Package |   Version | Ruled by |
+| :---- | :------- |----------:| --------: |
+| docker | Docker CE |   20.10.8 | env. |
+| docker-compose | Docker CE |    1.29.2 | env. |
+| Kafka | Kafka Broker |         - | [docker-compose.yml](docker-compose.yml) |
+| mvn | Maven |     3.8.1 | env. |
 | java | Java | 1.8.0_292 | env. |
-| lib | Apache-Kafka-Streams | 2.7.2 | spring-boot |
-| lib | Jackson-Datatype-JSR310 | 2.5.7 | spring-boot |
-| lib | Lombok | 1.18.22 | spring-boot |
-| lib | Openapi-UI | 1.5.2 | [pom.xml](pom.xml) |
-| lib | Spring-Cloud-Stream | 3.1.4 | spring-boot |
-| lib | Spring-Cloud-Stream-Binder-Kafka-Streams | 3.1.4 | spring-boot |
-| lib | Spring-Boot-Starter-Web | 2.5.7 | spring-boot |
-| spring-boot | Spring-Boot-Starter-Parent | 2.5.7 | [pom.xml](pom.xml) |
+| lib | Apache-Kafka-Streams |     3.0.0 | spring-boot |
+| lib | Jackson-Datatype-JSR310 |    2.13.1 | spring-boot |
+| lib | Lombok |   1.18.22 | spring-boot |
+
+[//]: # (| lib | Openapi-UI | 1.5.2 | [pom.xml]&#40;pom.xml&#41; |)
+| lib | Spring-Cloud-Stream | 4.0.0-M1 | spring-boot |
+| lib | Spring-Cloud-Stream-Binder-Kafka-Streams | 4.0.0-M1 | spring-boot |
+| lib | Spring-Boot-Starter-Web | 3.0.0 (M1) | spring-boot |
+| spring-boot | Spring-Boot-Starter-Parent | 3.0.0 (M1) | [pom.xml](pom.xml) |
 | spring-cloud | Spring-Cloud | 2020.0.4 | [pom.xml](pom.xml) |
 
 

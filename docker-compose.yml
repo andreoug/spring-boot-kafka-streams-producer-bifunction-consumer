@@ -26,8 +26,6 @@ services:
     container_name: producer
     image: app
     build: .
-    depends_on:
-      - kafka
     ports:
       - "9000:9000"
     networks:
@@ -37,12 +35,12 @@ services:
       KAFKA_SERVERS: "kafka:9092"
       KAFKA_DEFAULT_TOPIC: "topic"
       KAFKA_TOPIC: "rules.topic"
+      KAFKA_PARTITION_COUNT: 1
+      KAFKA_REPLICATION_FACTOR: 1
   bifunction:
     container_name: bifunction
     image: app
     build: .
-    depends_on:
-      - kafka
     networks:
       - kafka-net
     environment:
@@ -51,15 +49,17 @@ services:
       KAFKA_DEFAULT_TOPIC: "topic"
       KAFKA_TOPIC: "rules.topic"
       KAFKA_ACTIVE_TOPIC: "active.topic"
+      KAFKA_PARTITION_COUNT: 1
+      KAFKA_REPLICATION_FACTOR: 1
   consumer:
     container_name: consumer
     image: app
     build: .
-    depends_on:
-      - kafka
     networks:
       - kafka-net
     environment:
       SPRING_PROFILES_ACTIVE: consumer
       KAFKA_SERVERS: "kafka:9092"
       KAFKA_ACTIVE_TOPIC: "active.topic"
+      KAFKA_PARTITION_COUNT: 1
+      KAFKA_REPLICATION_FACTOR: 1

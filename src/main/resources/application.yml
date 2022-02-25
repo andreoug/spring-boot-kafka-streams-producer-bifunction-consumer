@@ -10,17 +10,35 @@ spring:
     activate:
       on-profile: producer
   kafka:
-    template:
-      default-topic: ${KAFKA_DEFAULT_TOPIC:topic}
-      topic:  ${KAFKA_TOPIC:rules.topic}
-      partition-count: ${KAFKA_PARTITION_COUNT:1}
-      replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
+##    template:
+##      default-topic: ${KAFKA_DEFAULT_TOPIC:topic}
+##      topic:  ${KAFKA_TOPIC:rules.topic}
+##      partition-count: ${KAFKA_PARTITION_COUNT:1}
+##      replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092} #localhost:9095 is never loaded
     producer:
-      bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
+#      bootstrap-servers: ${KAFKA_SERVERS:localhost:9094}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping: action:com.pilot.commons.Action, sms:com.pilot.commons.Sms, smsRule:com.pilot.commons.SmsRule
+
+  cloud.stream:
+    function:
+      definition: sendSms,sendRule
+    bindings:
+      sendSms-out-0:
+        destination: ${KAFKA_DEFAULT_TOPIC:topic}
+        producer:
+          auto-add-partitions: 1
+          partition-count: ${KAFKA_PARTITION_COUNT:1}
+          replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
+      sendRule-out-0:
+        destination: ${KAFKA_TOPIC:rules.topic}
+        producer:
+          auto-add-partitions: 1
+          partition-count: ${KAFKA_PARTITION_COUNT:1}
+          replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
 
 server:
   port: 9000
@@ -41,6 +59,9 @@ spring:
     bindings:
       consumeService-in-0:
         destination: ${KAFKA_ACTIVE_TOPIC:active.topic}
+        consumer:
+          concurrency: 1
+
     kafka:
       streams:
         binder:
@@ -65,8 +86,12 @@ spring:
     bindings:
       bifunctionProcessor-in-0:
         destination: ${KAFKA_DEFAULT_TOPIC:topic}
+        consumer:
+          concurrency: 1
       bifunctionProcessor-in-1:
         destination: ${KAFKA_TOPIC:rules.topic}
+        consumer:
+          concurrency: 1
       bifunctionProcessor-out-0:
         destination: ${KAFKA_ACTIVE_TOPIC:active.topic}
         producer:

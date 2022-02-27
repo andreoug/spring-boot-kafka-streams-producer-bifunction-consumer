@@ -10,13 +10,13 @@ spring:
     activate:
       on-profile: producer
   kafka:
+    bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
     template:
       default-topic: ${KAFKA_DEFAULT_TOPIC:topic}
       topic:  ${KAFKA_TOPIC:rules.topic}
       partition-count: ${KAFKA_PARTITION_COUNT:1}
       replication-factor: ${KAFKA_REPLICATION_FACTOR:1}
     producer:
-      bootstrap-servers: ${KAFKA_SERVERS:localhost:9092}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:

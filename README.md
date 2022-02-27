@@ -72,8 +72,8 @@ Follow the steps on the section about [Working on the Staging Environment](#wots
 | docker | Docker CE | 20.10.8 | env. |
 | docker-compose | Docker CE | 1.29.2 | env. |
 | Kafka | Kafka Broker | - | [docker-compose.yml](docker-compose.yml) |
-| mvn | Maven | - | [Dockerfile](Dockerfile) |
-| java | Java | - | [Dockerfile](Dockerfile) |
+| mvn | Maven |    3.6.1 | [Dockerfile](Dockerfile) |
+| java | Java |      1.8 | [Dockerfile](Dockerfile) |
 | lib | Apache-Kafka-Streams | 2.7.2 | spring-boot |
 | lib | Jackson-Datatype-JSR310 | 2.5.7 | spring-boot |
 | lib | Lombok | 1.18.22 | spring-boot |
@@ -271,6 +271,210 @@ And on the consumer terminal:
     2022-01-10 17:31:09.787  INFO 72828 --- [-StreamThread-1] o.a.k.s.p.internals.StreamThread         : stream-thread [consumeService-applicationId-be80ec08-ee16-4c45-b2bf-11d246e0ca05-StreamThread-1] Processed 0 total records, ran 0 punctuators, and committed 0 total tasks since the last update
 ```
 
+### 1.4. Benchmarking
+
+For the benchmarking we use [ab - Apache HTTP server benchmarking tool](https://httpd.apache.org/docs/2.4/programs/ab.html).
+ab is a tool for benchmarking your Apache Hypertext Transfer Protocol (HTTP) server. It is designed to give you an
+impression of how your current Apache installation performs. This especially shows you how many requests per second the
+Apache installation is capable of serving.
+
+### 1.4.1 Benchmarking Staging Environment
+Right after you follow the steps on section about [Working on the Staging Environment](#wotse), you can run the ab
+tool as follows:
+```bash
+    ➜  ab -v1 -n2000 -c1000 -T'application/json' -ppostfile  http://localhost:9000/kafka/send-sms
+    This is ApacheBench, Version 2.3 <$Revision: 1879490 $>
+    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+    Licensed to The Apache Software Foundation, http://www.apache.org/
+    
+    Benchmarking localhost (be patient)
+    apr_socket_recv: Connection reset by peer (54)
+    Total of 1 requests completed
+    ➜  ab -v1 -n2000 -c1000 -T'application/json' -ppostfile  http://localhost:9000/kafka/send-sms
+    This is ApacheBench, Version 2.3 <$Revision: 1879490 $>
+    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+    Licensed to The Apache Software Foundation, http://www.apache.org/
+    
+    Benchmarking localhost (be patient)
+    Completed 200 requests
+    Completed 400 requests
+    Completed 600 requests
+    Completed 800 requests
+    Completed 1000 requests
+    Completed 1200 requests
+    Completed 1400 requests
+    Completed 1600 requests
+    Completed 1800 requests
+    Completed 2000 requests
+    Finished 2000 requests
+    
+    
+    Server Software:        
+    Server Hostname:        localhost
+    Server Port:            9000
+    
+    Document Path:          /kafka/send-sms
+    Document Length:        73 bytes
+    
+    Concurrency Level:      1000
+    Time taken for tests:   4.895 seconds
+    Complete requests:      2000
+    Failed requests:        0
+    Total transferred:      356000 bytes
+    Total body sent:        424000
+    HTML transferred:       146000 bytes
+    Requests per second:    408.60 [#/sec] (mean)
+    Time per request:       2447.397 [ms] (mean)
+    Time per request:       2.447 [ms] (mean, across all concurrent requests)
+    Transfer rate:          71.03 [Kbytes/sec] received
+                            84.59 kb/s sent
+                            155.62 kb/s total
+    
+    Connection Times (ms)
+                  min  mean[+/-sd] median   max
+    Connect:        0   14  14.7     12      43
+    Processing:   103 1894 1128.9   1599    4742
+    Waiting:      103 1859 1129.8   1574    4727
+    Total:        141 1908 1130.4   1606    4776
+    
+    Percentage of the requests served within a certain time (ms)
+      50%   1606
+      66%   1939
+      75%   2316
+      80%   2535
+      90%   4302
+      95%   4597
+      98%   4681
+      99%   4699
+     100%   4776 (longest request)
+```
+
+In order to increase the available operational power locally, we stop bifunction and consumer containers and run the same benchmark test:
+
+```bash
+    ➜  ab -v1 -n2000 -c1000 -T'application/json' -ppostfile  http://localhost:9000/kafka/send-sms
+    This is ApacheBench, Version 2.3 <$Revision: 1879490 $>
+    Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+    Licensed to The Apache Software Foundation, http://www.apache.org/
+    
+    Benchmarking localhost (be patient)
+    Completed 200 requests
+    Completed 400 requests
+    Completed 600 requests
+    Completed 800 requests
+    Completed 1000 requests
+    Completed 1200 requests
+    Completed 1400 requests
+    Completed 1600 requests
+    Completed 1800 requests
+    Completed 2000 requests
+    Finished 2000 requests
+    
+    
+    Server Software:        
+    Server Hostname:        localhost
+    Server Port:            9000
+    
+    Document Path:          /kafka/send-sms
+    Document Length:        73 bytes
+    
+    Concurrency Level:      1000
+    Time taken for tests:   2.312 seconds
+    Complete requests:      2000
+    Failed requests:        0
+    Total transferred:      356000 bytes
+    Total body sent:        424000
+    HTML transferred:       146000 bytes
+    Requests per second:    865.05 [#/sec] (mean)
+    Time per request:       1156.003 [ms] (mean)
+    Time per request:       1.156 [ms] (mean, across all concurrent requests)
+    Transfer rate:          150.37 [Kbytes/sec] received
+                            179.09 kb/s sent
+                            329.46 kb/s total
+    
+    Connection Times (ms)
+                  min  mean[+/-sd] median   max
+    Connect:        0   20  21.3     14      65
+    Processing:    54  748 471.0    606    1845
+    Waiting:        6  732 472.5    581    1842
+    Total:         70  768 469.0    614    1868
+    
+    Percentage of the requests served within a certain time (ms)
+      50%    614
+      66%    772
+      75%    918
+      80%   1128
+      90%   1638
+      95%   1733
+      98%   1816
+      99%   1838
+     100%   1868 (longest request)
+```
+The result of stopping bifunction and consumer local containers was the increasing of the mean requests per second locally
+from 408.60 to 865.05.
+
+### 1.4.2 Benchmarking Development Enviroment
+Right after you follow the steps on section about [Working on the Development Environment](#wotde), you can run the ab
+tool as follows:
+```bash
+  ➜  ab -v1 -n2000 -c1000 -T'application/json' -ppostfile  http://localhost:9000/kafka/send-sms
+  This is ApacheBench, Version 2.3 <$Revision: 1879490 $>
+  Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+  Licensed to The Apache Software Foundation, http://www.apache.org/
+  
+  Benchmarking localhost (be patient)
+  Completed 200 requests
+  Completed 400 requests
+  Completed 600 requests
+  Completed 800 requests
+  Completed 1000 requests
+  Completed 1200 requests
+  Completed 1400 requests
+  Completed 1600 requests
+  Completed 1800 requests
+  Completed 2000 requests
+  Finished 2000 requests
+  
+  
+  Server Software:        
+  Server Hostname:        localhost
+  Server Port:            9000
+  
+  Document Path:          /kafka/send-sms
+  Document Length:        73 bytes
+  
+  Concurrency Level:      1000
+  Time taken for tests:   2.119 seconds
+  Complete requests:      2000
+  Failed requests:        0
+  Total transferred:      356000 bytes
+  Total body sent:        424000
+  HTML transferred:       146000 bytes
+  Requests per second:    943.90 [#/sec] (mean)
+  Time per request:       1059.436 [ms] (mean)
+  Time per request:       1.059 [ms] (mean, across all concurrent requests)
+  Transfer rate:          164.08 [Kbytes/sec] received
+                          195.42 kb/s sent
+                          359.49 kb/s total
+  
+  Connection Times (ms)
+                min  mean[+/-sd] median   max
+  Connect:        0   14  14.0     14      42
+  Processing:    14  820 354.8    942    1233
+  Waiting:        5  820 354.8    942    1232
+  Total:         47  834 342.9    945    1248
+  
+  Percentage of the requests served within a certain time (ms)
+    50%    945
+    66%   1110
+    75%   1142
+    80%   1146
+    90%   1165
+    95%   1173
+    98%   1200
+    99%   1217
+   100%   1248 (longest request)
+```
 
 ## <a name="sbp">2. Spring Boot Profiles</a>
 Spring boot gives the option to the application to have profiles which are used to separate with components, services

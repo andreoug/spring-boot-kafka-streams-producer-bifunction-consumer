@@ -5,18 +5,18 @@ Use bash to get your initial spring project from [start.spring.io]() following t
 ```bash
   export PROJECT_NAME="spring-boot-kafka-streams-producer-bifunction-consumer"
   curl https://start.spring.io/starter.zip \
-    -d dependencies=kafka-streams,cloud-stream,lombok,web \
+    -d dependencies=kafka-streams,cloud-stream,lombok,webflux \
     -d groupId="com.pilot" \
     -d artifactId=$PROJECT_NAME \
     -d name=$PROJECT_NAME \
-    -d description="Pilot project for Spring Boot with Kafka Streams" \
+    -d description="Pilot project of Spring Boot with Kafka Streams for SMS Delivery Filtering" \
     -d javaVersion=1.8 \
     -d build=maven \
     -d packaging=jar \
     -d bootVersion=2.5.7 -o $PROJECT_NAME.zip
 ```
 Or use your browser at [start.spring.io](https://start.spring.io/)
-![spring.initializer](images/spring.initializer.png)
+![spring.initializer](images/spring.initializer.webflux.png)
 
 In fact, what is missing from this initial setup and need to be added in pom file are the following dependencies for 
 jackson and swagger lib's:
@@ -28,11 +28,11 @@ jackson and swagger lib's:
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.5.2</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--                <artifactId>springdoc-openapi-ui</artifactId>-->
+<!--            <version>1.5.2</version>-->
+<!--        </dependency>-->
     </dependencies>
 ```
 

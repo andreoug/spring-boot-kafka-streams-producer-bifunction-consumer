@@ -23,7 +23,7 @@ the SMS. The delegation, for the time being, is just a log prompt on the consume
 For more details about Spring Kafka Streams, you can visit 
 [Spring Kafka Steams and Spring Cloud Streams](https://spring.io/blog/2018/04/19/kafka-streams-and-spring-cloud-stream).
 
-![Activity Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/andreoug/spring-boot-kafka-producer-consumer/main/docs/umls/sms-delivery-filtering-sequence-diagram.puml)
+![Activity Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/andreoug/spring-boot-kafka-streams-producer-bifunction-consumer/main/docs/umls/sms-delivery-filtering-sequence-diagram.puml)
 
 *Producer*, *consumer*, and *bifunction* are Spring profiles loaded on this application as we will
 explain later on the section about [Spring Boot Profiles](#sbp).
